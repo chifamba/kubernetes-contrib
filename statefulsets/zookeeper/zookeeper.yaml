@@ -1,8 +1,15 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: infra
+  labels:
+    istio-injection: disabled
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: zk-svc
+  namespace: infra
   labels:
     app: zk-svc
 spec:
@@ -19,6 +26,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: zk-cm
+  namespace: infra
 data:
   jvm.heap: "512M"
   tick: "2000"
@@ -32,6 +40,7 @@ apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
   name: zk-pdb
+  namespace: infra
 spec:
   selector:
     matchLabels:
@@ -42,6 +51,7 @@ apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
   name: zk
+  namespace: infra
 spec:
   serviceName: zk-svc
   replicas: 3
