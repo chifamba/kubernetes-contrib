@@ -10,11 +10,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: infra
+  labels:
+    istio-injection: disabled
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: mongo
+  namespace: infra
   labels:
     name: mongo
 spec:
@@ -29,6 +36,7 @@ apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
   name: mongo
+  namespace: infra
 spec:
   serviceName: "mongo"
   replicas: 1
